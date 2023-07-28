@@ -17,12 +17,19 @@ app.post('/adduser',(req,res)=>{
     if(userData.name == null || userData.email == null || userData.id == null || userData.mobile == null){
         return res.status(401).send({error: true, msg: 'Missing details'});
     }
-    console.log("hi",userData.email);
-    const existUsers = fs.readFileSync('student.json','utf8');
-    const parseUsers = JSON.parse(existUsers);
-    if(existUsers.email === userData.email){
-        return res.status(401).send({error: true, msg: 'user exist'});
+    const userDatas = fs.readFileSync('student.json','utf8');
+    const p2=JSON.parse(userDatas);
+    for(let i=0;i<p2.length;i++){
+        if(req.body.email==p2[i].email){
+            return res.status(401).send({error: true, msg: 'user exist'});
+        }
     }
+    // console.log("hi",userData.email);
+    // const existUsers = fs.readFileSync('student.json','utf8');
+    // const parseUsers = JSON.parse(existUsers);
+    // if(existUsers.email == userData.email){
+    //     return res.status(401).send({error: true, msg: 'user exist'});
+    // }
     
     
     const stringifyData = JSON.stringify(userData);
